@@ -1,0 +1,31 @@
+# Air Piano V1 — Raspberry Pi 3B+ Dependencies
+# ============================================================
+# IMPORTANT: Do NOT pip install these blindly on a fresh Pi.
+# Run setup.sh instead — it selects the correct wheel for your
+# exact Python version and architecture (ARMv7 32-bit vs ARM64).
+#
+# If you must install manually:
+#   pip install -r requirements.txt
+# ============================================================
+
+# Core computer vision
+opencv-python==4.8.1.78   # or opencv-python-headless for no-GUI builds
+                           # Pi 3B+ bullseye: use system package instead:
+                           # sudo apt install python3-opencv
+
+# Numerical math (waveform synthesis)
+numpy>=1.21.0,<2.0.0      # 1.x required for mediapipe 0.8.x compatibility
+
+# Audio playback
+pygame>=2.1.0,<3.0.0      # pygame 2.x supports SDL2 audio
+
+# YAML config parsing
+PyYAML>=5.4.0
+
+# MediaPipe — SEE setup.sh FOR CORRECT VERSION DETECTION
+# DO NOT install this line manually on ARMv7:
+#   mediapipe                    <- no armv7l wheel exists for latest
+# setup.sh will install one of:
+#   mediapipe==0.8.5             <- last known armv7l wheel (Python 3.7–3.9)
+#   mediapipe-rpi                <- community armhf build
+#   mediapipe==0.10.x            <- works on ARM64 (Pi 4/5 64-bit only)

@@ -1,0 +1,61 @@
+camera:
+  mode: usb          # "usb" or "ip"
+  device: 0          # 0 = built-in laptop camera (default)
+                     # 1, 2, ... = external USB webcam if multiple cameras present
+                     # Linux Pi: can also be "/dev/video0"
+  width: 640
+  height: 480
+  fps: 20
+  ip_url: ""         # http://PHONE_IP:8080/video for IP mode
+  flip: true         # horizontal mirror — true for selfie/laptop camera
+  backend: auto      # "auto", "dshow" (Windows), "v4l2" (Linux), "any"
+
+vision:
+  max_hands: 2
+  detection_confidence: 0.5
+  tracking_confidence: 0.5
+  # Path to hand_landmarker.task (required for mediapipe >= 1.0 / Tasks API)
+  # Download: https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/latest/hand_landmarker.task
+  model_path: "hand_landmarker.task"
+  # Fingertip landmark indices (MediaPipe hand model)
+  fingertip_ids: [4, 8, 12, 16, 20]
+
+piano:
+  # Piano region: fraction of frame height from top where piano starts/ends
+  top_fraction: 0.62    # piano top starts at 62% of frame height
+  bottom_fraction: 1.0  # piano bottom at 100% (very bottom)
+  # Notes C5 through C6 chromatic
+  notes:
+    white: ["C5", "D5", "E5", "F5", "G5", "A5", "B5", "C6"]
+    black: ["C#5", "D#5", "", "F#5", "G#5", "A#5", ""]
+  black_key_width_ratio: 0.6   # black key width as fraction of white key width
+  black_key_height_ratio: 0.6  # black key height as fraction of piano height
+
+audio:
+  sample_rate: 22050
+  buffer_size: 512
+  channels: 8          # pygame mixer channels (polyphony slots)
+  volume: 0.8
+  note_duration: 2.0   # seconds of pre-rendered note audio
+  attack_ms: 10
+  decay_ms: 800
+
+interaction:
+  debounce_ms: 150     # minimum ms between re-triggering the same note
+
+display:
+  show_landmarks: true
+  show_fingertips: true
+  show_debug: false
+  window_title: "Air Piano"
+  font_scale: 0.55
+  landmark_color: [0, 255, 0]        # BGR green
+  fingertip_color: [0, 200, 255]     # BGR yellow-ish
+  connection_color: [0, 180, 0]      # BGR dark green
+  white_key_color: [240, 240, 240]   # idle white key
+  black_key_color: [30, 30, 30]      # idle black key
+  active_white_color: [100, 220, 255] # active white key highlight
+  active_black_color: [80, 160, 220]  # active black key highlight
+  piano_border_color: [80, 80, 80]
+  hud_color: [255, 255, 255]
+  hud_bg_color: [0, 0, 0]
